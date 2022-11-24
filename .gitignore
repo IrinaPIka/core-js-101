@@ -36,3 +36,6 @@ node_modules
 # Editors crap
 .vscode
 .idea
+
+# my test
+tmp.html
