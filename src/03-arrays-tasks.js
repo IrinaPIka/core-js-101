@@ -270,8 +270,8 @@ function getMovingSum(arr) {
  * [ 'a', 'b', 'c' , null ]  => [ "b", null ]
  * [ "a" ] => []
  */
-function getSecondItems(/* arr */) {
-  throw new Error('Not implemented');
+function getSecondItems(arr) {
+  return arr.filter((item, index) => index % 2 > 0);
 }
 
 
@@ -289,8 +289,17 @@ function getSecondItems(/* arr */) {
  *  [ 'a', 'b', 'c', null ] => [ 'a', 'b','b', 'c','c','c',  null,null,null,null ]
  *  [ 1,2,3,4,5 ] => [ 1, 2,2, 3,3,3, 4,4,4,4, 5,5,5,5,5 ]
  */
-function propagateItemsByPositionIndex(/* arr */) {
-  throw new Error('Not implemented');
+function propagateItemsByPositionIndex(arr) {
+  let newarr = [];
+
+  function fillnewarr(elem, count) {
+    const tmparr = new Array(count);
+    tmparr.fill(elem);
+    newarr = newarr.concat(tmparr);
+    return 1;
+  }
+  arr.map((elem, index) => fillnewarr(elem, index + 1));
+  return newarr;
 }
 
 
@@ -307,8 +316,11 @@ function propagateItemsByPositionIndex(/* arr */) {
  *   [ 1,2,3,4,5,6,7,8,9,10 ] => [ 10, 9, 8 ]
  *   [ 10, 10, 10, 10 ] => [ 10, 10, 10 ]
  */
-function get3TopItems(/* arr */) {
-  throw new Error('Not implemented');
+function get3TopItems(arr) {
+  function compareNumeric(a, b) {
+    return (a < b) ? 1 : -1;
+  }
+  return arr.sort(compareNumeric).slice(0, Math.min(3, arr.length));
 }
 
 
@@ -325,8 +337,10 @@ function get3TopItems(/* arr */) {
  *   [ null, 1, 'elephant' ] => 1
  *   [ 1, '2' ] => 1
  */
-function getPositivesCount(/* arr */) {
-  throw new Error('Not implemented');
+function getPositivesCount(arr) {
+  if (arr.length <= 0) return 0;
+  const newarr = arr.filter((value) => Number.isInteger(value) && (value > 0));
+  return newarr.length;
 }
 
 /**
@@ -342,8 +356,12 @@ function getPositivesCount(/* arr */) {
  *   [ 'nine','eight','nine','eight'] => [ 'eight','eight','nine','nine']
  *   [ 'one','one','one','zero' ]     => [ 'zero','one','one','one' ]
  */
-function sortDigitNamesByNumericOrder(/* arr */) {
-  throw new Error('Not implemented');
+function sortDigitNamesByNumericOrder(arr) {
+  const digit = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+  function sort(a, b) {
+    return (digit.indexOf(a) > digit.indexOf(b) ? 1 : -1);
+  }
+  return (arr.sort(sort));
 }
 
 /**
@@ -358,8 +376,8 @@ function sortDigitNamesByNumericOrder(/* arr */) {
  *   [ -1, 1, -1, 1 ]      => 0
  *   [ 1, 10, 100, 1000 ]  => 1111
  */
-function getItemsSum(/* arr */) {
-  throw new Error('Not implemented');
+function getItemsSum(arr) {
+  return arr.reduce(((sum, item) => sum + item), 0);
 }
 
 /**
