@@ -312,8 +312,12 @@ function isCreditCardNumber(/* ccn */) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function getDigitalRoot(num) {
+  let sum = num;
+  do {
+    sum = String(sum).split('').reduce((akk, value) => (akk - (-value)), 0);
+  } while (sum > 9);
+  return sum;
 }
 
 
@@ -338,8 +342,22 @@ function getDigitalRoot(/* num */) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const a1 = '[]';
+  const a2 = '{}';
+  const a3 = '<>';
+  const a4 = '()';
+  let lenold = str.length + 1;
+  let tmp = str;
+  while (lenold > tmp.length) {
+    lenold = tmp.length;
+    tmp = tmp.replace(a1, '');
+    tmp = tmp.replace(a2, '');
+    tmp = tmp.replace(a3, '');
+    tmp = tmp.replace(a4, '');
+  }
+  if (tmp.length > 0) return false;
+  return true;
 }
 
 
@@ -363,8 +381,27 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  let val = num;
+  let str = '';
+  let maxStepenVal = 1;
+  let maxStepen = 0;
+  let ostatok = '';
+  while (maxStepenVal <= num) {
+    maxStepenVal *= n;
+    maxStepen += 1;
+  }
+  if (maxStepenVal > num) {
+    maxStepen -= 1;
+    maxStepenVal /= n;
+  }
+  for (let i = maxStepen; i > 0; i -= 1) {
+    ostatok = val % maxStepenVal;
+    str += (val - ostatok) / maxStepenVal;
+    val = ostatok;
+    maxStepenVal /= n;
+  }
+  return str + ostatok;
 }
 
 
@@ -380,8 +417,22 @@ function toNaryString(/* num, n */) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  const newarr = pathes.map((item) => (item.split('/')));
+  let res = '';
+  for (let j = 0; j < newarr[0].length; j += 1) {
+    const tmp = newarr[0][j];
+    for (let i = 1; i < newarr.length; i += 1) {
+      if (tmp !== newarr[i][j]) {
+        if (j !== 0 && res[res.length - 1] !== '/') return res.concat('/');
+        return (res);
+      }
+    }
+    if (res.length === 0) res = res.concat('/'); else
+    if (res[res.length - 1] !== '/') res = res.concat('/');
+    res = res.concat(tmp);
+  }
+  return res;
 }
 
 
