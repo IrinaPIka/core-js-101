@@ -454,8 +454,32 @@ function getCommonDirectoryPath(pathes) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const c = new Array(m1.length);
+  if (m1.length > 1) {
+    for (let k = 0; k < m2[0].length; k += 1) { // идем по строкам второго массива
+      const tmp = new Array(m2.length); // создаем  подмассив равный m1 x
+      tmp.fill(0);
+      c[k] = tmp;
+      for (let j = 0; j < m2[0].length; j += 1) {
+        for (let i = 0; i < m1.length; i += 1) {
+          if (m1[i][k] !== undefined && m2[k][j] !== undefined && c[k][j] !== undefined) {
+            c[k][j] += m1[i][k] * m2[k][j];
+          }
+        }
+      }
+    }
+  } else {
+    const tmp = new Array(m1.length);
+    tmp.fill(0);
+    c[0] = tmp;
+    for (let j = 0; j < m2.length; j += 1) {
+      for (let i = 0; i < m1.length; i += 1) {
+        c[0][0] += m1[0][j] * m2[j][0];
+      }
+    }
+  }
+  return c;
 }
 
 
@@ -489,8 +513,62 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  function twoFromThree(v1, v2, v3, val) {
+    let n = 0;
+    if (v1 === val) n += 1;
+    if (v2 === val) n += 1;
+    if (v3 === val) n += 1;
+    if ((n === 2) && (v1 === undefined || v2 === undefined || v3 === undefined)) return true;
+    return false;
+  }
+
+  function checkWinnerHorizontal(desc, val) {
+    if ((desc[0][0] === val) && (desc[0][1] === val) && (desc[0][2] === val)) return true;
+    if ((desc[1][0] === val) && (desc[1][1] === val) && (desc[1][2] === val)) return true;
+    if ((desc[2][0] === val) && (desc[2][1] === val) && (desc[2][2] === val)) return true;
+    return false;
+  }
+
+  function checkWinnerVertical(desc, val) {
+    if ((desc[0][0] === val) && (desc[1][0] === val) && (desc[2][0] === val)) return true;
+    if ((desc[0][1] === val) && (desc[1][1] === val) && (desc[2][1] === val)) return true;
+    if ((desc[0][2] === val) && (desc[1][2] === val) && (desc[2][2] === val)) return true;
+    return false;
+  }
+  function checkWinnerDiagonals(desc, val) {
+    if ((desc[0][0] === val) && (desc[1][1] === val) && (desc[2][2] === val)) return true;
+    if ((desc[0][2] === val) && (desc[1][1] === val) && (desc[2][0] === val)) return true;
+    return false;
+  }
+  function checkWinner(desc, val) {
+    if (checkWinnerHorizontal(desc, val)) return true;
+    if (checkWinnerVertical(desc, val)) return true;
+    if (checkWinnerDiagonals(desc, val)) return true;
+    return false;
+  }
+
+  function checkWinner2(desc, val) {
+    let n = 0;
+    if (twoFromThree(desc[0][0], desc[0][1], desc[0][3], val)) n += 1;
+    if (twoFromThree(desc[1][0], desc[1][1], desc[1][3], val)) n += 1;
+    if (twoFromThree(desc[2][0], desc[2][1], desc[2][3], val)) n += 1;
+    if (n === 2) return true;
+
+    n = 0;
+    if (twoFromThree(desc[0][0], desc[1][0], desc[2][0], val)) n += 1;
+    if (twoFromThree(desc[0][1], desc[1][1], desc[2][1], val)) n += 1;
+    if (twoFromThree(desc[0][2], desc[1][2], desc[2][2], val)) n += 1;
+    if (n === 2) return true;
+    return false;
+  }
+
+  const desc = position;
+  if (checkWinner(desc, 'X')) return 'X';
+  if (checkWinner(desc, '0')) return '0';
+  if (checkWinner2(desc, 'X')) return 'X';
+  if (checkWinner2(desc, '0')) return '0';
+  return undefined;
 }
 
 
